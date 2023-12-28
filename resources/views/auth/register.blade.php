@@ -70,7 +70,8 @@
                                             <select class="custom-select" id="inputGroupSelect01" name="role">
                                                 <option selected disabled>Choose...</option>
                                                 <option value="0">Admin</option>
-                                                <option value="1">User</option>
+                                                <option value="1">Employee</option>
+                                                <option value="2">User</option>
                                             </select>
 
                                             @error('role')

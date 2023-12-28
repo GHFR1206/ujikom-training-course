@@ -42,7 +42,7 @@
                         <label for="name">Fullname</label>
                         <input type="text" name="name" id="name"
                             class="form-control @error('name') is-invalid @enderror" placeholder="Insert your fullname"
-                            aria-describedby="helpId" value="{{ old('name') }}">
+                            aria-describedby="helpId" value="{{ old('name') ?? Auth::user()->name }}">
                         @error('name')
                             <span class="invalid-feedback" role="alert">
                                 <strong>{{ $message }}</strong>
@@ -64,7 +64,7 @@
                         <label for="phone">Phone</label>
                         <input type="number" name="phone" id="phone"
                             class="form-control @error('phone') is-invalid @enderror" placeholder="Insert your phone"
-                            aria-describedby="helpId" value="{{ old('phone') }}">
+                            aria-describedby="helpId" value="{{ old('phone') ?? Auth::user()->phone }}">
                         @error('phone')
                             <span class="invalid-feedback" role="alert">
                                 <strong>{{ $message }}</strong>

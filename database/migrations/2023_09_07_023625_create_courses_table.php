@@ -24,8 +24,8 @@ return new class extends Migration
             $table->string('language');
             $table->text('location');
             $table->integer('certificate');
-            $table->foreignId('online_id')->nullable()->constrained()->onDelete('cascade');
-            $table->foreignId('offline_id')->nullable()->constrained()->onDelete('cascade');
+            $table->foreignId('online_id')->nullable()->constrained();
+            $table->foreignId('offline_id')->nullable()->constrained();
             $table->timestamps();
         });
     }

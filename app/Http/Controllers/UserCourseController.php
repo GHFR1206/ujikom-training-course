@@ -68,7 +68,7 @@ class UserCourseController extends Controller
         } else {
             $user = UserCourse::where('name', $request->name)->first();
             if ($user->course_id == $request->course_id) {
-                if ($user->online == null) {
+                if ($request->online == 1) {
                     $user->online = 1;
                     $user->save();
                 } else {

@@ -2,28 +2,21 @@
 
 namespace App\Models;
 
-use App\Models\OnlineCourse;
-use App\Models\OfflineCourse;
+use App\Models\Online;
+use App\Models\Offline;
 use Illuminate\Database\Eloquent\Model;
-use Illuminate\Database\Eloquent\Factories\HasFactory;
 
 class Course extends Model
 {
-    use HasFactory;
     protected $guarded = [];
 
-    public function usercourse()
+    public function offline()
     {
-        return $this->belongsTo(UserCourse::class, 'course_id', 'id');
+        return $this->belongsTo(Offline::class);
     }
 
     public function online()
     {
-        return $this->hasOne(Online::class, 'id');
-    }
-
-    public function offline()
-    {
-        return $this->hasOne(Offline::class, 'id');
+        return $this->belongsTo(Online::class);
     }
 }

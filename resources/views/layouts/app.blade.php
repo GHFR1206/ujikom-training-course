@@ -8,7 +8,9 @@
     <!-- CSRF Token -->
     <meta name="csrf-token" content="{{ csrf_token() }}">
 
-    <title>{{ $title }} | SMART Indonesia</title>
+    <title>{{ $title }} @if ($title)
+            |
+        @endif SMART Indonesia</title>
 
     <!-- Fonts -->
     <link rel="dns-prefetch" href="//fonts.bunny.net">
@@ -44,6 +46,7 @@
     {{-- My Css --}}
     <link rel="stylesheet" href="{{ asset('css/style.css') }}">
 
+    @yield('styles')
 </head>
 
 <body class="mb-5">
@@ -54,6 +57,9 @@
             {{ $slot }}
         </main>
     </div>
+    <x-footer-component></x-footer-component>
+
+    @yield('scripts')
 </body>
 {{-- Sweetalert --}}
 <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
@@ -72,14 +78,60 @@
 
         event.preventDefault();
         Swal.fire({
-            title: 'Yakin?',
-            text: "Anda akan menghapus registrasi course: " + name + "!",
+            title: 'Are you sure?',
+            text: "You will delete '" + name + "' course!",
             icon: 'warning',
             showCancelButton: true,
             confirmButtonColor: '#3085d6',
             cancelButtonColor: '#d33',
-            confirmButtonText: 'Ya, hapus',
-            cancelButtonText: 'Tidak, batal'
+            confirmButtonText: 'Yes, delete',
+            cancelButtonText: 'No, cancel'
+        }).then((result) => {
+            if (result.isConfirmed) {
+                form.submit();
+            }
+        })
+    });
+</script>
+
+<script>
+    $('.show_confirm_user').click(function(event) {
+        var form = $(this).closest("form");
+        var name = $(this).data("name");
+
+        event.preventDefault();
+        Swal.fire({
+            title: 'Are you sure?',
+            text: "You will delete '" + name + "' course registration!",
+            icon: 'warning',
+            showCancelButton: true,
+            confirmButtonColor: '#3085d6',
+            cancelButtonColor: '#d33',
+            confirmButtonText: 'Yes, delete',
+            cancelButtonText: 'No, cancel'
+        }).then((result) => {
+            if (result.isConfirmed) {
+                form.submit();
+            }
+        })
+    });
+</script>
+
+<script>
+    $('.show_confirm_user_admin').click(function(event) {
+        var form = $(this).closest("form");
+        var name = $(this).data("name");
+
+        event.preventDefault();
+        Swal.fire({
+            title: 'Are you sure?',
+            text: "You will delete user '" + name + "' registration!",
+            icon: 'warning',
+            showCancelButton: true,
+            confirmButtonColor: '#3085d6',
+            cancelButtonColor: '#d33',
+            confirmButtonText: 'Yes, delete',
+            cancelButtonText: 'No, cancel'
         }).then((result) => {
             if (result.isConfirmed) {
                 form.submit();
@@ -91,6 +143,10 @@
 <script>
     @if (Session::has('success'))
         toastr.success("{{ Session::get('success') }}")
+    @endif
+
+    @if (Session::has('failed'))
+        toastr.danger("{{ Session::get('failed') }}")
     @endif
 </script>
 

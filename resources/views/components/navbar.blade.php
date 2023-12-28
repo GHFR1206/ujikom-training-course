@@ -1,7 +1,4 @@
 <nav class="background-header">
-    <div style="top: 0; left: 0;">
-        <a href="{{ route('index') }}"><img src="{{ asset('images/smart-logo.jpg') }}" style="width: 90px"></a>
-    </div>
     <div class="p-5">
         <div class="p-4"></div>
     </div>
@@ -20,9 +17,11 @@
             <!-- Left Side Of Navbar -->
             <ul class="navbar-nav me-auto">
 
-                <a class="text-decoration-none text-center align-middle text-white"
-                    href="https://api.whatsapp.com/send?phone=6289513117552" target="_blank"><i
-                        class="text-white fab fa-whatsapp mr-1" aria-hidden="true"></i> SMART Admin</a>
+                <a class="nav-link active" href="https://api.whatsapp.com/send?phone=6289513117552" target="_blank"><i
+                        class="text-white fab fa-whatsapp mr-1" aria-hidden="true"></i> SMART Consulting</a>
+                <li class="nav-link ml-2 active" style="cursor: default">|</li>
+                <li><a class="nav-link ml-2 @if (request()->routeIs('index')) active @endif"
+                        href="{{ route('index') }}">Home</a></li>
             </ul>
 
             <!-- Right Side Of Navbar -->
@@ -39,22 +38,28 @@
                 @guest
                     @if (Route::has('login'))
                         <li class="nav-item mr-3">
-                            <a class="nav-link" href="{{ route('login') }}">{{ __('Login') }}</a>
+                            <a class="nav-link @if (request()->routeIs('login')) active @endif"
+                                href="{{ route('login') }}">{{ __('Login') }}</a>
                         </li>
                     @endif
                     @if (Route::has('register'))
                         <li class="nav-item">
-                            <a class="nav-link" href="{{ route('register') }}">{{ __('Register') }}</a>
+                            <a class="nav-link @if (request()->routeIs('register')) active @endif"
+                                href="{{ route('register') }}">{{ __('Register') }}</a>
                         </li>
                     @endif
                 @else
                     <li class="nav-item dropdown">
-                        <a id="navbarDropdown" class="nav-link dropdown-toggle" href="#" role="button"
-                            data-bs-toggle="dropdown" aria-haspopup="true" aria-expanded="false" v-pre>
+                        <a id="navbarDropdown"
+                            class="nav-link dropdown-toggle @if (request()->routeIs('user.edit', 'usercourse.index')) active @endif" href="#"
+                            role="button" data-bs-toggle="dropdown" aria-haspopup="true" aria-expanded="false" v-pre>
                             {{ Auth::user()->name }}
                         </a>
 
                         <div class="dropdown-menu dropdown-menu-end" aria-labelledby="navbarDropdown">
+                            <a class="dropdown-item" href="{{ route('user.edit', Auth::user()->id) }}">
+                                Profile
+                            </a>
                             <a class="dropdown-item" href="{{ route('usercourse.index') }}">
                                 Registered Course
                             </a>

@@ -3,7 +3,11 @@
         <form action="{{ route('course.update', $course->id) }}" method="POST" enctype="multipart/form-data">
             @csrf
             @method('PUT')
+
             <div class="row">
+                @if (session('error'))
+                    <div class="alert alert-danger">{{ session('error') }}</div>
+                @endif
                 <div class="col-6">
                     <h5>Course Setting</h5>
                     <div class="form-group mt-2">
@@ -29,8 +33,8 @@
                     </div>
                     <div class="form-group mt-2">
                         <label for="image">Image</label>
-                        <p>Now used image: <img src="{{ asset('storage/' . $course->image) }}" style="width:100px;"
-                                alt=""> (leave empty if not changed)</p>
+                        <p>Now used image: <img src="{{ asset('storage/images/' . $course->image) }}"
+                                style="width:100px;" alt=""> (leave empty if not changed)</p>
                         <input type="file" name="image" class="form-control @error('image') is-invalid @enderror"
                             {{ old('image') ?? $course->image }}>
                         @error('image')
@@ -90,7 +94,8 @@
                     <div class="form-group mt-2">
                         <label for="language">Language</label>
                         <div class="input-group mb-3">
-                            <select class="custom-select" id="inputGroupSelect01" name="language">
+                            <select class="custom-select" id="inputGroupSelect01" name="language"
+                                value="{{ $course->language }}">
                                 <option disabled>Choose...</option>
                                 <option value="english" @if ($course->language == 'English') selected @endif>English
                                 </option>
@@ -124,100 +129,94 @@
                     </div>
                 </div>
                 <div class="col-6">
-                    @if (!$course->online == null)
-                        <h5>Online Course</h5>
-                        <div class="form-group mt-2">
-                            <label for="cost">Cost</label>
-                            <div class="input-group mb-3">
-                                <div class="input-group-prepend">
-                                    Rp.
-                                </div>
-                                <input type="number" name="online_cost" id="cost"
-                                    class="form-control @error('online_cost') is-invalid @enderror"
-                                    placeholder="Insert course's cost" aria-describedby="helpId"
-                                    value="{{ old('online_cost') ?? $course->online->cost }}">
-                                @error('online_cost')
-                                    <span class="invalid-feedback" role="alert">
-                                        <strong>{{ $message }}</strong>
-                                    </span>
-                                @enderror
+                    <h5>Online Course</h5>
+                    <div class="form-group mt-2">
+                        <label for="cost">Cost</label>
+                        <div class="input-group mb-3">
+                            <div class="input-group-prepend">
+                                Rp.
                             </div>
+                            <input type="number" name="online_cost" id="cost"
+                                class="form-control @error('online_cost') is-invalid @enderror"
+                                placeholder="Insert course's cost" aria-describedby="helpId"
+                                @if ($course->online_id) value="{{ $course->online->cost }}" @endif>
+                            @error('online_cost')
+                                <span class="invalid-feedback" role="alert">
+                                    <strong>{{ $message }}</strong>
+                                </span>
+                            @enderror
+                        </div>
 
-                        </div>
-                        <div class="form-group mt-2">
-                            <label for="start_date">Start Date</label>
-                            <input type="date" name="online_start_date" id="start_date"
-                                class="form-control @error('online_start_date') is-invalid @enderror"
-                                placeholder="Insert course's start_date" aria-describedby="helpId"
-                                value="{{ old('online_start_date') ?? $course->online->start_date }}">
-                            @error('online_start_date')
-                                <span class="invalid-feedback" role="alert">
-                                    <strong>{{ $message }}</strong>
-                                </span>
-                            @enderror
-                        </div>
-                        <div class="form-group mt-2">
-                            <label for="end-date">End Date</label>
-                            <input type="date" name="online_end_date" id="end-date"
-                                class="form-control @error('online_end-date') is-invalid @enderror"
-                                placeholder="Insert course's end-date" aria-describedby="helpId"
-                                value="{{ old('online_end_date') ?? $course->online->end_date }}">
-                            @error('online_end-date')
-                                <span class="invalid-feedback" role="alert">
-                                    <strong>{{ $message }}</strong>
-                                </span>
-                            @enderror
-                        </div>
-                    @endif
-                    @if (!$course->offline == null)
-                        <h5 class="mt-5">Offline Course</h5>
-                        <div class="form-group mt-2">
-                            <label for="cost">Cost</label>
-                            <div class="input-group mb-3">
-                                <div class="input-group-prepend">
-                                    Rp.
-                                </div>
-                                <input type="number" name="offline_cost" id="cost"
-                                    class="form-control @error('offline_cost') is-invalid @enderror"
-                                    placeholder="Insert course's cost" aria-describedby="helpId"
-                                    value="{{ old('offline_cost') ?? $course->offline->cost }}">
-                                @error('offline_cost')
-                                    <span class="invalid-feedback" role="alert">
-                                        <strong>{{ $message }}</strong>
-                                    </span>
-                                @enderror
+                    </div>
+                    <div class="form-group mt-2">
+                        <label for="start_date">Start Date</label>
+                        <input type="date" name="online_start_date" id="start_date"
+                            class="form-control @error('online_start_date') is-invalid @enderror"
+                            placeholder="Insert course's start_date" aria-describedby="helpId"
+                            @if ($course->online_id) value="{{ $course->online->start_date }}" @endif>
+                        @error('online_start_date')
+                            <span class="invalid-feedback" role="alert">
+                                <strong>{{ $message }}</strong>
+                            </span>
+                        @enderror
+                    </div>
+                    <div class="form-group mt-2">
+                        <label for="end-date">End Date</label>
+                        <input type="date" name="online_end_date" id="end-date"
+                            class="form-control @error('online_end-date') is-invalid @enderror"
+                            placeholder="Insert course's end-date" aria-describedby="helpId"
+                            @if ($course->online_id) value="{{ $course->online->end_date }}" @endif>
+                        @error('online_end-date')
+                            <span class="invalid-feedback" role="alert">
+                                <strong>{{ $message }}</strong>
+                            </span>
+                        @enderror
+                    </div>
+                    <h5 class="mt-5">Offline Course</h5>
+                    <div class="form-group mt-2">
+                        <label for="cost">Cost</label>
+                        <div class="input-group mb-3">
+                            <div class="input-group-prepend">
+                                Rp.
                             </div>
-
-                        </div>
-                        <div class="form-group mt-2">
-                            <label for="start_date">Start Date</label>
-                            <input type="date" name="offline_start_date" id="start_date"
-                                class="form-control @error('offline_start_date') is-invalid @enderror"
-                                placeholder="Insert course's start_date" aria-describedby="helpId"
-                                value="{{ old('offline_start_date') ?? $course->offline->start_date }}">
-                            @error('offline_start_date')
+                            <input type="number" name="offline_cost" id="cost"
+                                class="form-control @error('offline_cost') is-invalid @enderror"
+                                placeholder="Insert course's cost" aria-describedby="helpId"
+                                @if ($course->offline_id) value="{{ $course->offline->cost }}" @endif>
+                            @error('offline_cost')
                                 <span class="invalid-feedback" role="alert">
                                     <strong>{{ $message }}</strong>
                                 </span>
                             @enderror
                         </div>
-                        <div class="form-group mt-2">
-                            <label for="end-date">End Date</label>
-                            <input type="date" name="offline_end_date" id="end-date"
-                                class="form-control @error('offline_end_date') is-invalid @enderror"
-                                placeholder="Insert course's end-date" aria-describedby="helpId"
-                                value="{{ old('offline_end_date') ?? $course->offline->end_date }}">
-                            @error('offline_end_date')
-                                <span class="invalid-feedback" role="alert">
-                                    <strong>{{ $message }}</strong>
-                                </span>
-                            @enderror
-                        </div>
-                    @endif
+                    </div>
+                    <div class="form-group mt-2">
+                        <label for="start_date">Start Date</label>
+                        <input type="date" name="offline_start_date" id="offline_start_date"
+                            class="form-control @error('offline_start_date') is-invalid @enderror"
+                            placeholder="Insert course's start_date" aria-describedby="helpId"
+                            @if ($course->offline_id) value="{{ $course->offline->start_date }}" @endif>
+                        @error('offline_start_date')
+                            <span class="invalid-feedback" role="alert">
+                                <strong>{{ $message }}</strong>
+                            </span>
+                        @enderror
+                    </div>
+                    <div class="form-group mt-2">
+                        <label for="end-date">End Date</label>
+                        <input type="date" name="offline_end_date" id="end-date"
+                            class="form-control @error('offline_end_date') is-invalid @enderror"
+                            placeholder="Insert course's end-date" aria-describedby="helpId"
+                            @if ($course->offline_id) value="{{ $course->offline->end_date }}" @endif>
+                        @error('offline_end_date')
+                            <span class="invalid-feedback" role="alert">
+                                <strong>{{ $message }}</strong>
+                            </span>
+                        @enderror
+                    </div>
                 </div>
+                <button class="btn btn-primary" type="submit">Submit</button>
             </div>
-            <button class="btn btn-primary" type="submit">Submit</button>
         </form>
-
     </div>
 </x-app>

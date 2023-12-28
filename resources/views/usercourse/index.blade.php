@@ -33,8 +33,8 @@
                     @else
                         <tr class="text-center">
                             <td>{{ $index + $usercourses->firstItem() }}</td>
-                            <td><img src="{{ asset('storage/' . $usercourse->course->image) }}" style="width: 200px"
-                                    alt="" srcset="">
+                            <td><img src="{{ asset('storage/images/' . $usercourse->course->image) }}"
+                                    style="width: 200px" alt="" srcset="">
                             </td>
                             <td>{{ $usercourse->course->name }}</td>
                             <td>
@@ -63,16 +63,25 @@
                                     {{ number_format($usercourse->course->online->cost + $usercourse->course->offline->cost) }}
                                 @endif
                             </td>
-                            <td>
-                                <form method="POST" action="{{ route('usercourse.destroy', $usercourse->id) }}">
-                                    @csrf
-                                    @method('DELETE')
-                                    <button type="submit" class="btn btn-xs btn-danger btn-flat show_confirm"
-                                        data-toggle="tooltip" title='Delete'
-                                        data-name="{{ $usercourse->course->name }}"><i class="fa fa-trash"
-                                            aria-hidden="true"></i></button>
-                                </form>
-                            </td>
+                            @if ($usercourse->confirmed == 0)
+                                <td>
+                                    <form method="POST" action="{{ route('usercourse.destroy', $usercourse->id) }}">
+                                        @csrf
+                                        @method('DELETE')
+                                        <button type="submit" class="btn btn-xs btn-danger btn-flat show_confirm_user"
+                                            data-toggle="tooltip" title='Delete'
+                                            data-name="{{ $usercourse->course->name }}"><i class="fa fa-trash"
+                                                aria-hidden="true"></i></button>
+                                    </form>
+                                </td>
+                            @else
+                                <td>
+                                    <p>Please <a class="text-decoration-none"
+                                            href="https://api.whatsapp.com/send?phone=6289513117552"
+                                            target="_blank">contact our
+                                            admin</a> to cancel this course</p>
+                                </td>
+                            @endif
                         </tr>
                     @endif
                 @empty

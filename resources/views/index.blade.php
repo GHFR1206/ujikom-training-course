@@ -1,4 +1,4 @@
-<x-app title="Dashboard">
+<x-app>
     <div class="container">
         <div class="row justify-content-center">
             @foreach ($courses as $course)
@@ -12,7 +12,7 @@
                         <div class="card-body">
                             <div class="row">
                                 <div class="col-3"><a href="{{ route('course.show', $course->id) }}"><img
-                                            src="{{ asset('storage/' . $course->image) }}" style="width:100%"
+                                            src="{{ asset('storage/images/' . $course->image) }}" style="width:100%"
                                             alt="" srcset=""></a></div>
                                 <div class="col-9">
                                     <p>{{ Str::words($course->desc, 4, '...') }}</p>
@@ -27,7 +27,7 @@
                                             </tr>
                                         </thead>
                                         <tbody>
-                                            @if ($course->online_id != null)
+                                            @if ($course->online_id)
                                                 <tr>
                                                     <th>Online</th>
                                                     <td>Rp. {{ number_format($course->online->cost) }}</td>
@@ -35,7 +35,7 @@
                                                 </tr>
                                             @endif
 
-                                            @if ($course->offline_id != null)
+                                            @if ($course->offline_id)
                                                 <tr>
                                                     <th>Offline</th>
                                                     <td>Rp. {{ number_format($course->offline->cost) }}</td>
@@ -61,9 +61,8 @@
                                                         @method('DELETE')
                                                         <button type="submit"
                                                             class="btn btn-xs btn-danger btn-flat show_confirm mr-1"
-                                                            data-toggle="tooltip" title='Delete'
-                                                            data-name="{{ $course->name }}"><i class="fa fa-trash"
-                                                                aria-hidden="true"></i></button>
+                                                            data-toggle="tooltip" data-name="{{ $course->name }}"><i
+                                                                class="fa fa-trash" aria-hidden="true"></i></button>
                                                     </form>
                                                     <a href="{{ route('usercourse.show', $course->id) }}"
                                                         class="btn btn-primary">Show
@@ -84,5 +83,3 @@
         </div>
     </div>
 </x-app>
-
-<x-footer-component></x-footer-component>

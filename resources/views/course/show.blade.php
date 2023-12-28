@@ -5,7 +5,7 @@
                 <h2>{{ $course->name }}</h2>
                 <div style="border-bottom: 2px black solid"></div>
                 <div class="row mt-4">
-                    <div class="col-4"><img src="{{ asset('storage/' . $course->image) }}" class="mr-3"
+                    <div class="col-4"><img src="{{ asset('storage/images/' . $course->image) }}" class="mr-3"
                             style="width: 300px" alt=""></div>
                     <div class="col-8">
                         <p>{{ $course->desc }}</p>

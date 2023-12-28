@@ -3,7 +3,7 @@
         <div class="row justify-content-center">
             <div class="col-md-8">
                 <div class="card">
-                    <div class="card-header">User Edit</div>
+                    <div class="card-header">Profile</div>
 
                     <div class="card-body">
                         <form method="POST" action="{{ route('user.update', $user->id) }}">

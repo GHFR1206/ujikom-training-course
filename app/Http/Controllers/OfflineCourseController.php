@@ -2,7 +2,7 @@
 
 namespace App\Http\Controllers;
 
-use App\Models\OfflineCourse;
+use App\Models\Offline;
 use Illuminate\Http\Request;
 
 class OfflineCourseController extends Controller

@@ -10,6 +10,7 @@ use App\Http\Controllers\AdminController;
 use App\Http\Controllers\CourseController;
 use App\Http\Controllers\UserCourseController;
 use App\Http\Controllers\Auth\RegisterController;
+use App\Http\Controllers\UploadController;
 
 /*
 |--------------------------------------------------------------------------
@@ -26,13 +27,23 @@ Route::get('/', [CourseController::class, 'index'])->name('index');
 
 Auth::routes();
 Route::get('/register', [RegisterController::class, 'showRegistrationForm'])->name('register');
+
 Route::middleware(['auth'])->group(function () {
-    Route::resource('course', CourseController::class);
+    Route::get('course/create', [CourseController::class, 'create'])->name('course.create');
     Route::resource('user', UserController::class);
     Route::resource('usercourse', UserCourseController::class);
     Route::get('usercourse/online/{usercourse}', [UserCourseController::class, 'create_online'])->name('usercourse.online.create');
     Route::get('usercourse/offline/{usercourse}', [UserCourseController::class, 'create_online'])->name('usercourse.offline.create');
 });
+
+Route::middleware(['auth', 'admin'])->group(function () {
+    Route::post('/upload', [UploadController::class, 'store'])->name('upload');
+    Route::delete('/revert', [UploadController::class, 'delete'])->name('revert');
+});
+
+Route::resource('course', CourseController::class);
+Route::get('course', [CourseController::class, 'index'])->name('course.index');
+Route::get('course/{course}', [CourseController::class, 'show'])->name('course.show');
 
 // Email Test
 // Route::get('/tests', function () {

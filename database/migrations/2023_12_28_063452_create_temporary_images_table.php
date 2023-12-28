@@ -13,11 +13,10 @@ return new class extends Migration
      */
     public function up()
     {
-        Schema::create('onlines', function (Blueprint $table) {
+        Schema::create('temporary_images', function (Blueprint $table) {
             $table->id();
-            $table->bigInteger('cost')->nullable();
-            $table->string('start_date')->nullable();
-            $table->string('end_date')->nullable();
+            $table->string('folder');
+            $table->string('filename');
             $table->timestamps();
         });
     }
@@ -29,6 +28,6 @@ return new class extends Migration
      */
     public function down()
     {
-        Schema::dropIfExists('onlines');
+        Schema::dropIfExists('temporary_images');
     }
 };

@@ -44,8 +44,8 @@
                                 action="{{ route('usercourse.destroy', $usercourse->id) }}">
                                 @csrf
                                 @method('DELETE')
-                                <button type="submit" class="btn btn-xs btn-danger btn-flat show_confirm"
-                                    data-toggle="tooltip" title='Delete' data-name="{{ $usercourse->course->name }}"><i
+                                <button type="submit" class="btn btn-xs btn-danger btn-flat show_confirm_user_admin"
+                                    data-toggle="tooltip" title='Delete' data-name="{{ $usercourse->name }}"><i
                                         class="fa fa-trash" aria-hidden="true"></i></button>
                             </form>
                             @if ($usercourse->confirmed == 0)
