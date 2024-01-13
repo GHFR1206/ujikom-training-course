@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Http\Requests\UserUpdateRequest;
 use App\Models\User;
 use Illuminate\Http\Request;
 
@@ -68,7 +69,7 @@ class UserController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function update(Request $request, $id)
+    public function update(UserUpdateRequest $request, $id)
     {
         $user = User::find($id);
         $user->update([
@@ -78,7 +79,7 @@ class UserController extends Controller
             'phone' => $request->phone,
             'role' => $request->role,
         ]);
-        return redirect()->route('index');
+        return redirect()->route('index')->with('success', 'Data successfully updated');
     }
 
     /**

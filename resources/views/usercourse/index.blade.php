@@ -65,6 +65,9 @@
                             </td>
                             @if ($usercourse->confirmed == 0)
                                 <td>
+                                    <a href="{{ route('usercourse.payment', $usercourse->id) }}"
+                                        class="btn btn-success mb-1" type="button" id="pay-button"><i
+                                            class="fas fa-credit-card"></i></a>
                                     <form method="POST" action="{{ route('usercourse.destroy', $usercourse->id) }}">
                                         @csrf
                                         @method('DELETE')
@@ -94,4 +97,6 @@
         </table>
         {{ $usercourses->links() }}
     </div>
+
+
 </x-app>

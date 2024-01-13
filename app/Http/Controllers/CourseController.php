@@ -7,7 +7,6 @@ use App\Models\Online;
 use App\Models\Offline;
 use App\Models\UserCourse;
 use Illuminate\Support\Str;
-use Illuminate\Http\Request;
 use App\Models\TemporaryImage;
 use Illuminate\Support\Facades\Session;
 use Illuminate\Support\Facades\Storage;
@@ -45,81 +44,91 @@ class CourseController extends Controller
      */
     public function store(CourseCreateRequest $request)
     {
+        $folder = Session::get('folder');
+
+        // VALIDATION-START
+        if (!$request->offline_cost && !$request->online_cost) {
+            if ($request->image) {
+                $temporaryImage = TemporaryImage::where('folder', $folder)->first();
+                Storage::deleteDirectory('images/tmp/' . $temporaryImage->folder);
+                $temporaryImage->delete();
+            }
+            return redirect()->back()->withInput()->with('error', "Offline or Online courses can't be empty!");
+        }
+
         if ($request->online_start_date > $request->online_end_date or $request->offline_start_date > $request->offline_end_date) {
             if ($request->image) {
-                $folder = Session::get('folder');
                 $temporaryImage = TemporaryImage::where('folder', $folder)->first();
                 Storage::deleteDirectory('images/tmp/' . $temporaryImage->folder);
                 $temporaryImage->delete();
             }
-            return redirect()->back()->withInput()->with('error', "End date can't be earlier than start date");
+            return redirect()->back()->withInput()->with('error', "End date can't be earlier than start date!");
         }
-
-        if ($request->offline_cost or $request->online_cost) {
-
-
-
-            if ($request->online_cost != null) {
-                $online = Online::create([
-                    'cost' => $request->online_cost,
-                    'start_date' => $request->online_start_date,
-                    'end_date' => $request->online_end_date,
-                ]);
-            } else {
-                $online = null;
+        if ($request->online_cost) {
+            if (!$request->online_start_date or !$request->online_end_date) {
+                if ($request->image) {
+                    $temporaryImage = TemporaryImage::where('folder', $folder)->first();
+                    Storage::deleteDirectory('images/tmp/' . $temporaryImage->folder);
+                    $temporaryImage->delete();
+                }
+                return redirect()->back()->withInput()->with('error', "Courses attribute can't be empty!");
             }
-
-            if ($request->offline_cost) {
-                $offline = Offline::create([
-                    'cost' => $request->offline_cost,
-                    'start_date' => $request->offline_start_date,
-                    'end_date' => $request->offline_end_date,
-                ]);
-            } else {
-                $offline = null;
-            }
-
-            $language = Str::headline($request->language);
-
-            $folder = Session::get('folder');
-            $temporaryImage = TemporaryImage::where('folder', $folder)->first();
-            $image = $temporaryImage->folder . '/' . $temporaryImage->filename;
-            if ($temporaryImage) {
-                Storage::copy('images/tmp/' . $temporaryImage->folder . '/' . $temporaryImage->filename, 'images/' . $temporaryImage->folder . '/' . $temporaryImage->filename);
-                Storage::deleteDirectory('images/tmp/' . $temporaryImage->folder);
-                $temporaryImage->delete();
-            }
-
-            $course = Course::create([
-                'name' => $request->name,
-                'image' => $image,
-                'desc' => $request->desc,
-                'lecture' => $request->lecture,
-                'quiz' => $request->quiz,
-                'duration' => $request->duration,
-                'location' => $request->location,
-                'language' => $language,
-                'certificate' => $request->certificate,
+            $online = Online::create([
+                'cost' => $request->online_cost,
+                'start_date' => $request->online_start_date,
+                'end_date' => $request->online_end_date,
             ]);
-            if ($online) {
-                $course->online_id = $online->id;
-                $course->save();
-            }
-            if ($offline) {
-                $course->offline_id = $offline->id;
-                $course->save();
-            }
-
-            return redirect()->route('index')->with('success', 'Course successfully created!');
-        } else {
-            if ($request->image) {
-                $folder = Session::get('folder');
-                $temporaryImage = TemporaryImage::where('folder', $folder)->first();
-                Storage::deleteDirectory('images/tmp/' . $temporaryImage->folder);
-                $temporaryImage->delete();
-            }
-            return redirect()->back()->with('error', "Offline or Online courses can't be empty!")->withInput();
         }
+
+        if ($request->offline_cost) {
+            if (!$request->offline_start_date or !$request->offline_end_date) {
+                if ($request->image) {
+                    $temporaryImage = TemporaryImage::where('folder', $folder)->first();
+                    Storage::deleteDirectory('images/tmp/' . $temporaryImage->folder);
+                    $temporaryImage->delete();
+                }
+                return redirect()->back()->withInput()->with('error', "Courses attribute can't be empty!");
+            }
+            $offline = Offline::create([
+                'cost' => $request->offline_cost,
+                'start_date' => $request->offline_start_date,
+                'end_date' => $request->offline_end_date,
+            ]);
+        }
+        // VALIDATION-END
+
+        // STORING DATA-START
+        $language = Str::headline($request->language);
+        $temporaryImage = TemporaryImage::where('folder', $folder)->first();
+        $image = $temporaryImage->folder . '/' . $temporaryImage->filename;
+        if ($temporaryImage) {
+            Storage::copy('images/tmp/' . $temporaryImage->folder . '/' . $temporaryImage->filename, 'images/' . $temporaryImage->folder . '/' . $temporaryImage->filename);
+            Storage::deleteDirectory('images/tmp/' . $temporaryImage->folder);
+            $temporaryImage->delete();
+        }
+
+        $course = Course::create([
+            'name' => $request->name,
+            'image' => $image,
+            'desc' => $request->desc,
+            'lecture' => $request->lecture,
+            'quiz' => $request->quiz,
+            'duration' => $request->duration,
+            'location' => $request->location,
+            'language' => $language,
+            'certificate' => $request->certificate,
+        ]);
+        if ($request->online_cost) {
+            $course->online_id = $online->id;
+            $course->save();
+        }
+        if ($request->offline_cost) {
+            $course->offline_id = $offline->id;
+            $course->save();
+        }
+        // STORING DATA-END
+
+        return redirect()->route('index')->with('success', 'Course successfully created!');
     }
 
     /**
@@ -195,7 +204,7 @@ class CourseController extends Controller
             $course = Course::find($course);
             if ($request->image) {
                 $oldImage = $course->image;
-                Storage::delete('images/' . $oldImage);
+                Storage::deleteDirectory('images/' . $oldImage);
 
                 $image = $request->file('image');
                 $fileName = $image->getClientOriginalName();

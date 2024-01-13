@@ -15,6 +15,7 @@
     <!-- Fonts -->
     <link rel="dns-prefetch" href="//fonts.bunny.net">
     <link href="https://fonts.bunny.net/css?family=Nunito" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css?family=Raleway:100,300,400,500,700,900" rel="stylesheet">
 
     <!-- Scripts -->
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@4.6.2/dist/css/bootstrap.min.css"
@@ -51,13 +52,13 @@
 
 <body class="mb-5">
     <div id="app">
+
         <x-navbar></x-navbar>
 
         <main class="py-4">
             {{ $slot }}
         </main>
     </div>
-    <x-footer-component></x-footer-component>
 
     @yield('scripts')
 </body>

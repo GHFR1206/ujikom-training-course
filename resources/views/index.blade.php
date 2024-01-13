@@ -17,7 +17,7 @@
                                 <div class="col-9">
                                     <p>{{ Str::words($course->desc, 4, '...') }}</p>
                                     <div class="mt-n2 mb-2" style="border-top: 2px black solid"></div>
-                                    Lokasi : <b>{{ $course->location }}</b>
+                                    Location : <b>{{ $course->location }}</b>
                                     <table class="table table-borderless mb-5">
                                         <thead class="thead">
                                             <tr>
@@ -83,3 +83,5 @@
         </div>
     </div>
 </x-app>
+
+<x-footer-component></x-footer-component>

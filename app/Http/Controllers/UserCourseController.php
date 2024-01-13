@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use Midtrans\Config as Midtrans;
 use App\Mail\MyEmail;
 use App\Models\Course;
 use App\Models\Online;
@@ -99,7 +100,7 @@ class UserCourseController extends Controller
         Mail::to('smartinsight.id@gmail.com')->send(new AdminEmail($requests));
         Mail::to($request->email)->send(new UserEmail($request->all()));
 
-        return redirect()->route('index')->with('success', 'Berhasil registrasi, silahkan cek email anda!');
+        return redirect()->route('index')->with('success', 'Registration success, please check your email!');
     }
 
     /**
@@ -140,7 +141,7 @@ class UserCourseController extends Controller
         $usercourse->confirmed = 1;
         $usercourse->save();
 
-        return redirect()->back()->with('success', 'Registrasi user berhasil dikonfimasi');
+        return redirect()->back()->with('success', "User's registration successfully confirmed!");
     }
 
     /**
@@ -153,6 +154,58 @@ class UserCourseController extends Controller
     {
         $usercourse = UserCourse::find($usercourse)->firstOrFail();
         $usercourse->delete();
-        return redirect()->back()->with('success', 'Berhasil dihapus!');
+        return redirect()->back()->with('success', 'Successfully deleted!');
+    }
+
+    public function payment($usercourse)
+    {
+
+        $usercourse = UserCourse::with('course')->find($usercourse);
+        if ($usercourse->online) {
+            $cost = $usercourse->course->online->cost;
+        } else {
+            $cost = $usercourse->course->offline->cost;
+        }
+        // Set your Merchant Server Key
+        \Midtrans\Config::$serverKey = config('midtrans.server_key');
+        // Set to Development/Sandbox Environment (default). Set to true for Production Environment (accept real transaction).
+        \Midtrans\Config::$isProduction = false;
+        // Set sanitization on (default)
+        \Midtrans\Config::$isSanitized = true;
+        // Set 3DS transaction for credit card to true
+        \Midtrans\Config::$is3ds = true;
+        $params = array(
+            'transaction_details' => array(
+                'order_id' => $usercourse->id,
+                'gross_amount' => $cost,
+            ),
+            'customer_details' => array(
+                'name' => $usercourse->name,
+                'email' => $usercourse->email,
+                'phone' => $usercourse->phone,
+            ),
+        );
+
+        $snapToken = \Midtrans\Snap::getSnapToken($params);
+        return view('usercourse.checkout', compact('snapToken', 'usercourse', 'cost'));
+    }
+
+    public function callback(Request $request)
+    {
+        $server_key = config('midtrans.server_key');
+        $hashed = hash('sha512', $request->order_id . $request->status_code . $request->gross_amount . $server_key);
+        if ($hashed == $request->signature_key) {
+            if ($request->transaction_status == 'capture') {
+                $usercourse = Usercourse::with('course')->find($request->order_id);
+                $usercourse->confirmed = 1;
+                $usercourse->save();
+            }
+        }
+    }
+
+    public function invoice($id)
+    {
+        $usercourse = UserCourse::with('course')->find($id);
+        return view('usercourse.invoice', compact('usercourse'));
     }
 }

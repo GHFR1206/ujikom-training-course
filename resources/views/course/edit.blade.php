@@ -128,10 +128,14 @@
                         </div>
                     </div>
                 </div>
+
                 <div class="col-6">
+
+                    {{-- Online --}}
                     <h5>Online Course</h5>
                     <div class="form-group mt-2">
                         <label for="cost">Cost</label>
+                        <small>(leave blank if you do not want online courses)</small>
                         <div class="input-group mb-3">
                             <div class="input-group-prepend">
                                 Rp.
@@ -172,9 +176,12 @@
                             </span>
                         @enderror
                     </div>
+
+                    {{-- Offline --}}
                     <h5 class="mt-5">Offline Course</h5>
                     <div class="form-group mt-2">
                         <label for="cost">Cost</label>
+                        <small>(leave blank if you do not want offline courses)</small>
                         <div class="input-group mb-3">
                             <div class="input-group-prepend">
                                 Rp.

@@ -7,7 +7,7 @@
                     <div class="alert alert-danger">{{ session('error') }}</div>
                 @endif
                 <div class="col-6">
-                    <h5>Course Setting</h5>
+                    <h5>Course's Setting</h5>
                     <div class="form-group mt-2">
                         <label for="name">Name</label>
                         <input type="text" name="name" id="name"
@@ -157,10 +157,10 @@
                     <div class="form-group mt-2">
                         <label for="end-date">End Date</label>
                         <input type="date" name="online_end_date" id="end-date"
-                            class="form-control @error('online_end-date') is-invalid @enderror"
+                            class="form-control  @error('online_end_date') is-invalid @enderror"
                             placeholder="Insert course's end-date" aria-describedby="helpId"
                             value="{{ old('online_end_date') }}">
-                        @error('online_end-date')
+                        @error('online_end_date')
                             <span class="invalid-feedback" role="alert">
                                 <strong>{{ $message }}</strong>
                             </span>

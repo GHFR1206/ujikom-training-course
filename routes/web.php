@@ -34,14 +34,15 @@ Route::middleware(['auth'])->group(function () {
     Route::resource('usercourse', UserCourseController::class);
     Route::get('usercourse/online/{usercourse}', [UserCourseController::class, 'create_online'])->name('usercourse.online.create');
     Route::get('usercourse/offline/{usercourse}', [UserCourseController::class, 'create_online'])->name('usercourse.offline.create');
+    Route::get('payment/{usercourse}', [UserCourseController::class, 'payment'])->name('usercourse.payment');
 });
 
 Route::middleware(['auth', 'admin'])->group(function () {
+    Route::resource('course', CourseController::class);
     Route::post('/upload', [UploadController::class, 'store'])->name('upload');
     Route::delete('/revert', [UploadController::class, 'delete'])->name('revert');
 });
 
-Route::resource('course', CourseController::class);
 Route::get('course', [CourseController::class, 'index'])->name('course.index');
 Route::get('course/{course}', [CourseController::class, 'show'])->name('course.show');
 

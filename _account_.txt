@@ -1,0 +1,7 @@
+email	: admin@gmail.com
+password: admin
+
+Project progress: 80%
+to-do:	-payment gateway
+	-minor detail changes
+	-bug fix
