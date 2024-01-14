@@ -3,8 +3,8 @@
         <div class="row">
             <div class="col-6 mx-auto">
                 <div class="text-center mb-3">
-                    <h5><b>Terimakasih!</b></h5>
-                    <h5><b>Pembayaran berhasil!</b></h5>
+                    <h5><b>Thank You!</b></h5>
+                    <h5><b>Payment Successful!</b></h5>
                 </div>
                 <div class="card">
                     <div class="card-body">
@@ -58,8 +58,8 @@
                         </table>
                     </div>
                 </div>
+                <a href="{{ route('index') }}" class="btn btn-primary btn-block mt-2 mb-4">Back to homepage </a>
             </div>
-            <a href="{{ route('index') }}" class="btn btn-primary btn-block mt-2 mb-4">Back to homepage </a>
         </div>
     </div>
 

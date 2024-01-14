@@ -35,6 +35,7 @@ Route::middleware(['auth'])->group(function () {
     Route::get('usercourse/online/{usercourse}', [UserCourseController::class, 'create_online'])->name('usercourse.online.create');
     Route::get('usercourse/offline/{usercourse}', [UserCourseController::class, 'create_online'])->name('usercourse.offline.create');
     Route::get('payment/{usercourse}', [UserCourseController::class, 'payment'])->name('usercourse.payment');
+    Route::get('export', [UserCourseController::class, 'export'])->name('usercourse.export');
 });
 
 Route::middleware(['auth', 'admin'])->group(function () {

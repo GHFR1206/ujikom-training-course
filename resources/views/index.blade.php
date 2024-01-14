@@ -82,6 +82,28 @@
             {{ $courses->links() }}
         </div>
     </div>
+
+    <footer style="margin-top:200px">
+        <div class="container">
+            <div class="row align-items-end">
+                <div class="col-6 align-bottom">
+                    <img src="{{ asset('images/smart-logo.jpg') }}" width="180px" alt="" srcset="">
+                    <p class="mt-2" style="margin-bottom:-1px"><i class="fab fa-whatsapp"></i> <a
+                            class="text-decoration-none text-secondary"
+                            href="https://api.whatsapp.com/send?phone=6289513117552" target="_blank">(+62) 895 1311
+                            7552</a></p>
+                    <p><i class="fas fa-envelope"></i> <a class="text-decoration-none text-secondary"
+                            href="mailto:smartinsightid@gmail.com" target="_blank">smartinsightid@gmail.com</a></p>
+                </div>
+                <div class="col-6 d-flex justify-content-end">
+                    <iframe
+                        src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3963.5225628008643!2d106.8129577!3d-6.5817704!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x2e69c56361b38397%3A0xbdba4d9367f2ae2a!2sReaksi%20Coworking%20Space!5e0!3m2!1sid!2sid!4v1705229819376!5m2!1sid!2sid"
+                        width="400" height="300" style="border:0;" allowfullscreen="" loading="lazy"
+                        referrerpolicy="no-referrer-when-downgrade"></iframe>
+                </div>
+            </div>
+        </div>
+    </footer>
 </x-app>
 
 <x-footer-component></x-footer-component>

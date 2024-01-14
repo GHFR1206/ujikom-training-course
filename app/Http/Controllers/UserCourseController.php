@@ -2,12 +2,11 @@
 
 namespace App\Http\Controllers;
 
-use Midtrans\Config as Midtrans;
-use App\Mail\MyEmail;
+use Carbon\Carbon;
 use App\Models\Course;
-use App\Models\Online;
 use App\Mail\UserEmail;
 use App\Mail\AdminEmail;
+use PDF;
 use App\Models\UserCourse;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
@@ -113,8 +112,8 @@ class UserCourseController extends Controller
     {
         $course = Course::find($userCourse);
         $usercourses = UserCourse::where('course_id', $course->id)->latest()->paginate(5);
-
-        return view('usercourse.show', compact('course', 'usercourses'));
+        $count = $usercourses->count();
+        return view('usercourse.show', compact('course', 'usercourses', 'count'));
     }
 
     /**
@@ -188,6 +187,102 @@ class UserCourseController extends Controller
 
         $snapToken = \Midtrans\Snap::getSnapToken($params);
         return view('usercourse.checkout', compact('snapToken', 'usercourse', 'cost'));
+    }
+
+    public function export(Request $request)
+    {
+        if ($request->file == 'pdf') {
+            if ($request->confirmed == 'confirmed_all') {
+                if ($request->type == 'type_all') {
+                    $usercourse = UserCourse::whereHas('course', function ($query) {
+                        $query->where('name', request('name'));
+                    })->get();
+                } elseif ($request->type == 'type_offline') {
+                    $usercourse = UserCourse::where('offline', 1)->whereHas('course', function ($query) {
+                        $query->where('name', request('name'));
+                    })->get();
+                } else {
+                    $usercourse = UserCourse::where('online', 1)->whereHas('course', function ($query) {
+                        $query->where('name', request('name'));
+                    })->get();
+                }
+            } elseif ($request->confirmed == 'confirmed_no') {
+                if ($request->type == 'type_all') {
+                    $usercourse = UserCourse::where('confirmed', 0)->whereHas('course', function ($query) {
+                        $query->where('name', request('name'));
+                    })->get();
+                } elseif ($request->type == 'type_offline') {
+                    $usercourse = UserCourse::where('confirmed', 0)->where('offline', 1)->whereHas('course', function ($query) {
+                        $query->where('name', request('name'));
+                    })->get();
+                } else {
+                    $usercourse = UserCourse::where('confirmed', 0)->where('online', 1)->whereHas('course', function ($query) {
+                        $query->where('name', request('name'));
+                    })->get();
+                }
+            } else {
+                if ($request->type == 'type_all') {
+                    $usercourse = UserCourse::where('confirmed', 1)->whereHas('course', function ($query) {
+                        $query->where('name', request('name'));
+                    })->get();
+                } elseif ($request->type == 'type_offline') {
+                    $usercourse = UserCourse::where('confirmed', 1)->where('offline', 1)->whereHas('course', function ($query) {
+                        $query->where('name', request('name'));
+                    })->get();
+                } else {
+                    $usercourse = UserCourse::where('confirmed', 1)->where('online', 1)->whereHas('course', function ($query) {
+                        $query->where('name', request('name'));
+                    })->get();
+                }
+            }
+            $now = Carbon::now()->toDateString();
+            $pdf = PDF::loadView('usercourse.pdf', compact('usercourse', 'now'));
+            return $pdf->download('usercourse-' . $now . '.pdf');
+        } else {
+            if ($request->confirmed == 'confirmed_all') {
+                if ($request->type == 'type_all') {
+                    $usercourse = UserCourse::whereHas('course', function ($query) {
+                        $query->where('name', request('name'));
+                    })->get();
+                } elseif ($request->type == 'type_offline') {
+                    $usercourse = UserCourse::where('offline', 1)->whereHas('course', function ($query) {
+                        $query->where('name', request('name'));
+                    })->get();
+                } else {
+                    $usercourse = UserCourse::where('online', 1)->whereHas('course', function ($query) {
+                        $query->where('name', request('name'));
+                    })->get();
+                }
+            } elseif ($request->confirmed == 'confirmed_no') {
+                if ($request->type == 'type_all') {
+                    $usercourse = UserCourse::where('confirmed', 0)->whereHas('course', function ($query) {
+                        $query->where('name', request('name'));
+                    })->get();
+                } elseif ($request->type == 'type_offline') {
+                    $usercourse = UserCourse::where('confirmed', 0)->where('offline', 1)->whereHas('course', function ($query) {
+                        $query->where('name', request('name'));
+                    })->get();
+                } else {
+                    $usercourse = UserCourse::where('confirmed', 0)->where('online', 1)->whereHas('course', function ($query) {
+                        $query->where('name', request('name'));
+                    })->get();
+                }
+            } else {
+                if ($request->type == 'type_all') {
+                    $usercourse = UserCourse::where('confirmed', 1)->whereHas('course', function ($query) {
+                        $query->where('name', request('name'));
+                    })->get();
+                } elseif ($request->type == 'type_offline') {
+                    $usercourse = UserCourse::where('confirmed', 1)->where('offline', 1)->whereHas('course', function ($query) {
+                        $query->where('name', request('name'));
+                    })->get();
+                } else {
+                    $usercourse = UserCourse::where('confirmed', 1)->where('online', 1)->whereHas('course', function ($query) {
+                        $query->where('name', request('name'));
+                    })->get();
+                }
+            }
+        }
     }
 
     public function callback(Request $request)
