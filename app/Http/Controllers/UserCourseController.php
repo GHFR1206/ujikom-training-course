@@ -2,15 +2,17 @@
 
 namespace App\Http\Controllers;
 
+use PDF;
 use Carbon\Carbon;
 use App\Models\Course;
 use App\Mail\UserEmail;
 use App\Mail\AdminEmail;
-use PDF;
 use App\Models\UserCourse;
 use Illuminate\Http\Request;
+use App\Exports\UserCourseExport;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Mail;
+use Maatwebsite\Excel\Facades\Excel;
 use App\Http\Requests\UserCourseRequest;
 
 class UserCourseController extends Controller
@@ -282,6 +284,8 @@ class UserCourseController extends Controller
                     })->get();
                 }
             }
+            $now = Carbon::now()->toDateString();
+            return Excel::download(new UserCourseExport($usercourse, $now), 'report-' . $now . '.xlsx');
         }
     }
 

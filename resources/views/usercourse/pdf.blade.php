@@ -22,14 +22,14 @@
 <body>
     <table>
         <tr>
-            <th>No</th>
-            <th>Name</th>
-            <th>Email</th>
-            <th>Phone</th>
-            <th>Address</th>
-            <th>Instance</th>
-            <th>Type</th>
-            <th>Confirmed</th>
+            <th><b>Num</b></th>
+            <th><b>Name</b></th>
+            <th><b>Email</b></th>
+            <th><b>Address</b></th>
+            <th><b>Phone</b></th>
+            <th><b>Instance</b></th>
+            <th><b>Type</b></th>
+            <th><b>Confirmed</b></th>
         </tr>
         @forelse ($usercourse as $uc)
             <tr>

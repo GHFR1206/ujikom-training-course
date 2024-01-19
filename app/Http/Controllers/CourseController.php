@@ -196,11 +196,7 @@ class CourseController extends Controller
         if ($request->online_start_date > $request->online_end_date or $request->offline_start_date > $request->offline_end_date) {
             return redirect()->back()->withInput()->with('error', "End date can't be earlier than start date");
         }
-
         if ($request->offline_cost or $request->online_cost) {
-
-
-
             $course = Course::find($course);
             if ($request->image) {
                 $oldImage = $course->image;
