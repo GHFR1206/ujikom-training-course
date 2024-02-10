@@ -46,6 +46,7 @@
                     onSuccess: function(result) {
                         /* You may add your own implementation here */
                         // alert("payment success!");
+                        dd('ok');
                         window.location.href = "{{ route('usercourse.invoice', $usercourse->id) }}";
                         console.log(result);
                     },

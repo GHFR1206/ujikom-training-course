@@ -97,11 +97,8 @@ class UserCourseController extends Controller
                 }
             }
         }
-        $requests = $request->all();
-        Mail::to('smartinsight.id@gmail.com')->send(new AdminEmail($requests));
-        Mail::to($request->email)->send(new UserEmail($request->all()));
 
-        return redirect()->route('index')->with('success', 'Registration success, please check your email!');
+        return redirect()->route('index')->with('success', 'Registration success!');
     }
 
     /**
