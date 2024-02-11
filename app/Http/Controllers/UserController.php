@@ -77,7 +77,6 @@ class UserController extends Controller
             'name' => $request->name,
             'email' => $request->email,
             'phone' => $request->phone,
-            'role' => $request->role,
         ]);
         return redirect()->route('index')->with('success', 'Data successfully updated');
     }

@@ -18,7 +18,7 @@ class CourseSeeder extends Seeder
         Course::create([
             'name' => 'Best Brand Selection',
             'image' => 'best-brand-selection.jpg',
-            'desc' => 'Lorem ipsum dolor sit, amet consectetur adipisicing elit. Hic quaerat rerum totam unde. Dolorem autem quibusdam vero eligendi laborum distinctio aspernatur incidunt laboriosam perspiciatis libero labore harum maiores fugiat magnam adipisci odit tempora doloremque veritatis velit consequatur praesentium, voluptatum eum.',
+            'desc' => 'Increase your professional skill and design world class interactive dashboard in just two days! Benefit: Mengevaluasi kondisi eksisting kantor cabang pada masing - masing daerah/kota, Plotting tingkat efisiensi Unit Bisnis, Mengukur preferensi pengusaha dan konsumen atas alternatif lokasi',
             'lecture' => '6',
             'quiz' => '6',
             'duration' => '24',
@@ -31,7 +31,7 @@ class CourseSeeder extends Seeder
         Course::create([
             'name' => 'Brand Equity Research',
             'image' => 'brand-equity-research.jpg',
-            'desc' => 'Lorem ipsum dolor sit, amet consectetur adipisicing elit. Hic quaerat rerum totam unde. Dolorem autem quibusdam vero eligendi laborum distinctio aspernatur incidunt laboriosam perspiciatis libero labore harum maiores fugiat magnam adipisci odit tempora doloremque veritatis velit consequatur praesentium, voluptatum eum.',
+            'desc' => 'Benefit: Mengetahui sejauh mana posisi Brand Awareness untuk produk/merek, Mengetahui presepsi konsumen/calon konsumen terhadap brand produk kita, Memberikan strategi yang tepat bagi perusahaan dalam persaingan merek',
             'lecture' => '3',
             'quiz' => '3',
             'duration' => '24',
@@ -44,7 +44,7 @@ class CourseSeeder extends Seeder
         Course::create([
             'name' => 'Business Forecasting Technique',
             'image' => 'business-forecasting-technique.jpg',
-            'desc' => 'Lorem ipsum dolor sit, amet consectetur adipisicing elit. Hic quaerat rerum totam unde. Dolorem autem quibusdam vero eligendi laborum distinctio aspernatur incidunt laboriosam perspiciatis libero labore harum maiores fugiat magnam adipisci odit tempora doloremque veritatis velit consequatur praesentium, voluptatum eum.',
+            'desc' => 'Benefit: Menentukan proyeksi yang akurat, Menentukan proyeksi komposisi yang tepat, Melakukan proyeksi dengan metode smoothing, Melakukan proyeksi dengan metode dekomposisi',
             'lecture' => '5',
             'quiz' => '5',
             'duration' => '24',
@@ -57,7 +57,7 @@ class CourseSeeder extends Seeder
         Course::create([
             'name' => 'Customer Loyalty Survey',
             'image' => 'customer-loyalty-survey.jpg',
-            'desc' => 'Lorem ipsum dolor sit, amet consectetur adipisicing elit. Hic quaerat rerum totam unde. Dolorem autem quibusdam vero eligendi laborum distinctio aspernatur incidunt laboriosam perspiciatis libero labore harum maiores fugiat magnam adipisci odit tempora doloremque veritatis velit consequatur praesentium, voluptatum eum.',
+            'desc' => 'Benefit: Memahami teknik untuk melakukan dan mengelola riset loyalitas pelanggan, Melakukan evaluasi/analisa data untuk melihat tingkat loyalitas pelanggan, Menginterpretasi hasil pengukuran loyalitas pelanggan',
             'lecture' => '3',
             'quiz' => '3',
             'duration' => '24',
@@ -70,7 +70,7 @@ class CourseSeeder extends Seeder
         Course::create([
             'name' => 'Non-Performing Loan',
             'image' => 'non-performing-loan.jpg',
-            'desc' => 'Lorem ipsum dolor sit, amet consectetur adipisicing elit. Hic quaerat rerum totam unde. Dolorem autem quibusdam vero eligendi laborum distinctio aspernatur incidunt laboriosam perspiciatis libero labore harum maiores fugiat magnam adipisci odit tempora doloremque veritatis velit consequatur praesentium, voluptatum eum.',
+            'desc' => 'Benefit: Memberikan pemahaman kepada peserta mengenai faktor-faktor yang mempengaruhi tingginya NPL perbankan, Mengidentifikasi faktor-faktor yang berdampak pada kegiatan bisnis kredit bermasalah & macet',
             'lecture' => '4',
             'quiz' => '4',
             'duration' => '24',

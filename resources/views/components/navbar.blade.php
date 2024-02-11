@@ -37,18 +37,20 @@
                             </li>
                         @endif
                     @endauth
+                    @auth
+                        @if (Auth::user()->role == 0)
+                            <li class="nav-item mr-3">
+                                <a href="{{ route('register') }}"
+                                    class="nav-link @if (request()->routeIs('register')) active @endif">Register new user</a>
+                            </li>
+                        @endif
+                    @endauth
                     <!-- Authentication Links -->
                     @guest
                         @if (Route::has('login'))
                             <li class="nav-item mr-3">
                                 <a class="nav-link @if (request()->routeIs('login')) active @endif"
-                                    href="{{ route('login') }}">{{ __('Login') }}</a>
-                            </li>
-                        @endif
-                        @if (Route::has('register'))
-                            <li class="nav-item">
-                                <a class="nav-link @if (request()->routeIs('register')) active @endif"
-                                    href="{{ route('register') }}">{{ __('Register') }}</a>
+                                    href="{{ route('login') }}">{{ __('Sign in') }}</a>
                             </li>
                         @endif
                     @else

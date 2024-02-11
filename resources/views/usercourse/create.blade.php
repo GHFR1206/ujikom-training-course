@@ -1,13 +1,8 @@
 <x-app title="Register Course">
-
-
     <div class="container">
-
         <h5>Profile Detail</h5>
-
         <form action="{{ route('usercourse.store') }}" method="POST">
             @csrf
-
             <div class="row">
                 <div class="col-12">
                     <div class="form-group mt-2">
@@ -38,6 +33,10 @@
                     @else
                         <input type="hidden" name="course_cost" value="{{ $course->offline->cost }}">
                     @endif
+                </div>
+            </div>
+            <div class="row">
+                <div class="col-6">
                     <div class="form-group mt-4">
                         <label for="name">Fullname</label>
                         <input type="text" name="name" id="name"
@@ -71,11 +70,12 @@
                             </span>
                         @enderror
                     </div>
+                </div>
+                <div class="col-6">
                     <div class="form-group mt-2">
                         <label for="address">Address</label>
-                        <input type="text" name="address" id="address"
-                            class="form-control @error('address') is-invalid @enderror"
-                            placeholder="Insert your address" aria-describedby="helpId" value="{{ old('address') }}">
+                        <textarea type="text" name="address" id="address" class="form-control @error('address') is-invalid @enderror"
+                            placeholder="Insert your address" aria-describedby="helpId" value="{{ old('address') }}"></textarea>
                         @error('address')
                             <span class="invalid-feedback" role="alert">
                                 <strong>{{ $message }}</strong>
@@ -96,6 +96,8 @@
                     </div>
                 </div>
             </div>
+
+
             <button class="btn btn-primary">Submit</button>
         </form>
     </div>

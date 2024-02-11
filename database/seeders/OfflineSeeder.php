@@ -16,31 +16,31 @@ class OfflineSeeder extends Seeder
     public function run()
     {
         Offline::create([
-            'cost' => '1123123',
+            'cost' => '1000000',
             'start_date' => '2015-12-07',
             'end_date' => '2015-12-08',
         ]);
 
         Offline::create([
-            'cost' => '1123123',
+            'cost' => '1500000',
             'start_date' => '2016-03-14',
             'end_date' => '2016-03-15',
         ]);
 
         Offline::create([
-            'cost' => '1123123',
+            'cost' => '1200000',
             'start_date' => '2016-01-11',
             'end_date' => '2016-01-12',
         ]);
 
         Offline::create([
-            'cost' => '1123123',
+            'cost' => '1450000',
             'start_date' => '2016-04-13',
             'end_date' => '2016-04-14',
         ]);
 
         Offline::create([
-            'cost' => '1123123',
+            'cost' => '1100000',
             'start_date' => '2016-02-01',
             'end_date' => '2016-02-02',
         ]);

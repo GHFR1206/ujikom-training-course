@@ -23,5 +23,12 @@ class AdminSeeder extends Seeder
             'phone' => '088888888888',
             'password' => Hash::make('admin'),
         ]);
+        User::create([
+            'name' => 'User',
+            'email' => 'user@gmail.com',
+            'role' => 1,
+            'phone' => '085777267020',
+            'password' => Hash::make('user'),
+        ]);
     }
 }

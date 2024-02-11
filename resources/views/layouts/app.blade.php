@@ -43,13 +43,14 @@
     <link rel="stylesheet" href="{{ asset('css/style.css') }}">
 
     @yield('styles')
+    @if (!request()->routeIs('login', 'register'))
+        <x-navbar></x-navbar>
+    @endif
 </head>
 
-<body class="mb-5">
+
+<body class="mb-5 {{ $body ?? '' }}">
     <div id="app">
-
-        <x-navbar></x-navbar>
-
         <main class="py-4">
             {{ $slot }}
         </main>

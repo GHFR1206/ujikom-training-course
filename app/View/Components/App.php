@@ -12,9 +12,11 @@ class App extends Component
      * @return void
      */
     public $title;
-    public function __construct($title = null)
+    public $body;
+    public function __construct($title = null, $body = null)
     {
         $this->title = $title;
+        $this->body = $body;
     }
 
     /**
